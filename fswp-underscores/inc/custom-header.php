@@ -18,27 +18,27 @@
 /**
  * Set up the WordPress core custom header feature.
  *
- * @uses fswp_test_theme_header_style()
+ * @uses fswpscores_header_style()
  */
-function fswp_test_theme_custom_header_setup() {
-	add_theme_support( 'custom-header', apply_filters( 'fswp_test_theme_custom_header_args', array(
+function fswpscores_custom_header_setup() {
+	add_theme_support( 'custom-header', apply_filters( 'fswpscores_custom_header_args', array(
 		'default-image'          => '',
 		'default-text-color'     => '000000',
 		'width'                  => 1000,
 		'height'                 => 250,
 		'flex-height'            => true,
-		'wp-head-callback'       => 'fswp_test_theme_header_style',
+		'wp-head-callback'       => 'fswpscores_header_style',
 	) ) );
 }
-add_action( 'after_setup_theme', 'fswp_test_theme_custom_header_setup' );
+add_action( 'after_setup_theme', 'fswpscores_custom_header_setup' );
 
-if ( ! function_exists( 'fswp_test_theme_header_style' ) ) :
+if ( ! function_exists( 'fswpscores_header_style' ) ) :
 /**
  * Styles the header image and text displayed on the blog.
  *
- * @see fswp_test_theme_custom_header_setup().
+ * @see fswpscores_custom_header_setup().
  */
-function fswp_test_theme_header_style() {
+function fswpscores_header_style() {
 	$header_text_color = get_header_textcolor();
 
 	/*

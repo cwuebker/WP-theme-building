@@ -7,11 +7,11 @@
  * @package FSWP-test-theme
  */
 
-if ( ! function_exists( 'fswp_test_theme_posted_on' ) ) :
+if ( ! function_exists( 'fswpscores_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
-function fswp_test_theme_posted_on() {
+function fswpscores_posted_on() {
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
 		$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
@@ -25,12 +25,12 @@ function fswp_test_theme_posted_on() {
 	);
 
 	$posted_on = sprintf(
-		esc_html_x( 'Posted on %s', 'post date', 'fswp-test-theme' ),
+		esc_html_x( 'Posted on %s', 'post date', 'fswpscores' ),
 		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 	);
 
 	$byline = sprintf(
-		esc_html_x( 'by %s', 'post author', 'fswp-test-theme' ),
+		esc_html_x( 'by %s', 'post author', 'fswpscores' ),
 		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 	);
 
@@ -39,36 +39,36 @@ function fswp_test_theme_posted_on() {
 }
 endif;
 
-if ( ! function_exists( 'fswp_test_theme_entry_footer' ) ) :
+if ( ! function_exists( 'fswpscores_entry_footer' ) ) :
 /**
  * Prints HTML with meta information for the categories, tags and comments.
  */
-function fswp_test_theme_entry_footer() {
+function fswpscores_entry_footer() {
 	// Hide category and tag text for pages.
 	if ( 'post' === get_post_type() ) {
 		/* translators: used between list items, there is a space after the comma */
-		$categories_list = get_the_category_list( esc_html__( ', ', 'fswp-test-theme' ) );
-		if ( $categories_list && fswp_test_theme_categorized_blog() ) {
-			printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'fswp-test-theme' ) . '</span>', $categories_list ); // WPCS: XSS OK.
+		$categories_list = get_the_category_list( esc_html__( ', ', 'fswpscores' ) );
+		if ( $categories_list && fswpscores_categorized_blog() ) {
+			printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'fswpscores' ) . '</span>', $categories_list ); // WPCS: XSS OK.
 		}
 
 		/* translators: used between list items, there is a space after the comma */
-		$tags_list = get_the_tag_list( '', esc_html__( ', ', 'fswp-test-theme' ) );
+		$tags_list = get_the_tag_list( '', esc_html__( ', ', 'fswpscores' ) );
 		if ( $tags_list ) {
-			printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'fswp-test-theme' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+			printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'fswpscores' ) . '</span>', $tags_list ); // WPCS: XSS OK.
 		}
 	}
 
 	if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 		echo '<span class="comments-link">';
-		comments_popup_link( esc_html__( 'Leave a comment', 'fswp-test-theme' ), esc_html__( '1 Comment', 'fswp-test-theme' ), esc_html__( '% Comments', 'fswp-test-theme' ) );
+		comments_popup_link( esc_html__( 'Leave a comment', 'fswpscores' ), esc_html__( '1 Comment', 'fswpscores' ), esc_html__( '% Comments', 'fswpscores' ) );
 		echo '</span>';
 	}
 
 	edit_post_link(
 		sprintf(
 			/* translators: %s: Name of current post */
-			esc_html__( 'Edit %s', 'fswp-test-theme' ),
+			esc_html__( 'Edit %s', 'fswpscores' ),
 			the_title( '<span class="screen-reader-text">"', '"</span>', false )
 		),
 		'<span class="edit-link">',
@@ -82,8 +82,8 @@ endif;
  *
  * @return bool
  */
-function fswp_test_theme_categorized_blog() {
-	if ( false === ( $all_the_cool_cats = get_transient( 'fswp_test_theme_categories' ) ) ) {
+function fswpscores_categorized_blog() {
+	if ( false === ( $all_the_cool_cats = get_transient( 'fswpscores_categories' ) ) ) {
 		// Create an array of all the categories that are attached to posts.
 		$all_the_cool_cats = get_categories( array(
 			'fields'     => 'ids',
@@ -95,27 +95,27 @@ function fswp_test_theme_categorized_blog() {
 		// Count the number of categories that are attached to the posts.
 		$all_the_cool_cats = count( $all_the_cool_cats );
 
-		set_transient( 'fswp_test_theme_categories', $all_the_cool_cats );
+		set_transient( 'fswpscores_categories', $all_the_cool_cats );
 	}
 
 	if ( $all_the_cool_cats > 1 ) {
-		// This blog has more than 1 category so fswp_test_theme_categorized_blog should return true.
+		// This blog has more than 1 category so fswpscores_categorized_blog should return true.
 		return true;
 	} else {
-		// This blog has only 1 category so fswp_test_theme_categorized_blog should return false.
+		// This blog has only 1 category so fswpscores_categorized_blog should return false.
 		return false;
 	}
 }
 
 /**
- * Flush out the transients used in fswp_test_theme_categorized_blog.
+ * Flush out the transients used in fswpscores_categorized_blog.
  */
-function fswp_test_theme_category_transient_flusher() {
+function fswpscores_category_transient_flusher() {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
 	// Like, beat it. Dig?
-	delete_transient( 'fswp_test_theme_categories' );
+	delete_transient( 'fswpscores_categories' );
 }
-add_action( 'edit_category', 'fswp_test_theme_category_transient_flusher' );
-add_action( 'save_post',     'fswp_test_theme_category_transient_flusher' );
+add_action( 'edit_category', 'fswpscores_category_transient_flusher' );
+add_action( 'save_post',     'fswpscores_category_transient_flusher' );
